@@ -54,7 +54,7 @@ try:
             """select type ,count(*) as earthquake_count from records group by type""",
    
        "16.Number of earthquakes by data type (types)":
-            """select type, countT(*) as number_of_earthquakes from records group by type order by number_of_earthquakes desc""",
+            """select types, count(*) as number_of_earthquakes from records group by types order by number_of_earthquakes desc""",
     
        "18.Events with high station coverage (nst > threshold)":
            """select mag, time, nst from records where  nst > 100 order by nst desc""",
@@ -71,7 +71,7 @@ try:
          """select place, avg(mag) as avg_mag from records group by place order by avg_mag desc limit 5;""",
    
     " 22.Find countries that have experienced both shallow and deep earthquakes within the same month":
-         """select place ,date_format(time, '%m') as month from records group by place, date_format(time, '%m') 
+         """select place ,extract(month from time) as month from records group by place,month 
          having_sum(case when depth_km < 70 then 1 else 0 end) > 0 and sum(case when depth_km >= 300 then 1 else 0 end) > 0""",
          
     "23.Compute the year-over-year growth rate in the total number of earthquakes globally.":
@@ -83,7 +83,7 @@ try:
          """select place,count(*) as frequency,avg(mag) as avg_mag,(count(*) * avg(mag)) as score from records group by place order by score desc limit 3""",
 
     "25.  For each country, calculate the average depth of earthquakes within ±5° latitude range of the equator":
-          """"select place, avg(depth_km) as average_depth from records where latitude between -5 and 5 group by place""",
+          """select place, avg(depth_km) as average_depth from records where latitude between -5 and 5 group by place""",
     
      "26. Identify countries having the highest ratio of shallow to deep earthquakes.":
          """select place, count(case when depth_km <= 70 then 1 end) * 1.0 / 
@@ -120,4 +120,5 @@ if st.button("run query"):
     st.subheader(f"results for: {task}")
     st.dataframe(df, use_container_width = True)
     
+
     
