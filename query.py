@@ -51,10 +51,10 @@ try:
             """select status, count(*) AS count from records group by status """,
  
        "15.Count by earthquake type (type)":
-            """select type ,count(*) as earthquake_count from records group by type""",
+            """select types,count(*) as earthquake_count from records group by types""",
    
        "16.Number of earthquakes by data type (types)":
-            """select types, count(*) as number_of_earthquakes from records group by types order by number_of_earthquakes desc""",
+            """select types,count(*) as number_of_earthquakes from records group by types order by number_of_earthquakes desc""",
     
        "18.Events with high station coverage (nst > threshold)":
            """select mag, time, nst from records where  nst > 100 order by nst desc""",
@@ -122,3 +122,4 @@ if st.button("run query"):
     
 
     
+
